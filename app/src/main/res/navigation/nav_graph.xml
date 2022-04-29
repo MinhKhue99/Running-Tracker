@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/setupFragment">
+    <action
+        android:id="@+id/action_global_trackingFragment"
+        app:destination="@+id/trackingFragment"
+        app:launchSingleTop="true"/>
+    <fragment
+        android:id="@+id/runFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.RunFragment"
+        android:label="fragment_run"
+        tools:layout="@layout/fragment_run" >
+        <action
+            android:id="@+id/action_runFragment_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.SetupFragment"
+        android:label="SetupFragment" >
+        <action
+            android:id="@+id/action_setupFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.StatisticsFragment"
+        android:label="StatisticsFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/trackingFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.TrackingFragment"
+        android:label="TrackingFragment" >
+        <action
+            android:id="@+id/action_trackingFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/foodFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.FoodFragment"
+        android:label="fragment_food"
+        tools:layout="@layout/fragment_food" >
+        <action
+            android:id="@+id/action_foodFragment_to_searchFoodFragment"
+            app:destination="@id/searchFoodFragment" />
+        <action
+            android:id="@+id/action_foodFragment_to_detailFoodFragment"
+            app:destination="@id/detailFoodFragment" />
+        <action
+            android:id="@+id/action_foodFragment_to_filterRecipesFragment"
+            app:destination="@id/filterRecipesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFoodFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.DetailFoodFragment"
+        android:label="fragment_detail_food"
+        tools:layout="@layout/fragment_detail_food" >
+        <argument
+            android:name="recipes"
+            app:argType="com.minhkhue.runningtracker.model.Recipes" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterRecipesFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.FilterRecipesFragment"
+        android:label="fragment_filter_recipes"
+        tools:layout="@layout/fragment_filter_recipes" >
+        <action
+            android:id="@+id/action_filterRecipesFragment_to_detailFoodFragment"
+            app:destination="@id/detailFoodFragment" />
+        <argument
+            android:name="categories"
+            app:argType="com.minhkhue.runningtracker.model.Categories" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFoodFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.SearchFoodFragment"
+        android:label="fragment_search_food"
+        tools:layout="@layout/fragment_search_food" >
+        <action
+            android:id="@+id/action_searchFoodFragment_to_detailFoodFragment"
+            app:destination="@id/detailFoodFragment" />
+    </fragment>
+</navigation>
