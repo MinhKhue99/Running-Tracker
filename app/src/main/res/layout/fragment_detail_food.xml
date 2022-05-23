@@ -54,8 +54,22 @@
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="25dp"
                     android:scaleType="centerCrop"
-                    tools:src="@tools:sample/backgrounds/scenic" />
+                    tools:src="@tools:sample/backgrounds/scenic"
+                    />
 
+                <ImageButton
+                    android:id="@+id/ib_bookmark"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignEnd="@id/iv_meal"
+                    android:layout_alignBottom="@id/iv_meal"
+                    android:layout_marginEnd="-77dp"
+                    android:layout_marginBottom="-15dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_favorites"
+                    />
             </RelativeLayout>
 
             <androidx.appcompat.widget.Toolbar

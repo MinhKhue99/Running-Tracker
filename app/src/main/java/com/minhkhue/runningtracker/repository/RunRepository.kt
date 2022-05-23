@@ -2,12 +2,12 @@ package com.minhkhue.runningtracker.repository
 
 import androidx.lifecycle.LiveData
 import com.minhkhue.runningtracker.data.local.database.RunDao
-import com.minhkhue.runningtracker.model.Run
+import com.minhkhue.runningtracker.model.local.Run
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MainRepository @Inject constructor(
+class RunRepository @Inject constructor(
     private val runDao: RunDao,
 ) {
     private val ioDispatcher = Dispatchers.IO

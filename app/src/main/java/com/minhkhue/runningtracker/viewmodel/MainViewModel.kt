@@ -3,25 +3,25 @@ package com.minhkhue.runningtracker.viewmodel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.minhkhue.runningtracker.model.Run
-import com.minhkhue.runningtracker.repository.MainRepository
+import com.minhkhue.runningtracker.model.local.Run
+import com.minhkhue.runningtracker.repository.RunRepository
 import com.minhkhue.runningtracker.utils.SortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val runRepository: RunRepository) : ViewModel() {
 
     fun insertRun(run: Run) = viewModelScope.launch {
-        mainRepository.insertRun(run)
+        runRepository.insertRun(run)
     }
 
-    private val runsSortedByDate = mainRepository.getAllRunSortByDate()
-    private val runsSortedByDistance = mainRepository.getAllRunSortByDistances()
-    private val runsSortedByCaloriesBurned = mainRepository.getAllRunSortByCaloriesBurned()
-    private val runsSortedByTimeInMillis = mainRepository.getAllRunSortByTimeInMillis()
-    private val runsSortedByAvgSpeed = mainRepository.getAllRunSortByAvgSpeed()
+    private val runsSortedByDate = runRepository.getAllRunSortByDate()
+    private val runsSortedByDistance = runRepository.getAllRunSortByDistances()
+    private val runsSortedByCaloriesBurned = runRepository.getAllRunSortByCaloriesBurned()
+    private val runsSortedByTimeInMillis = runRepository.getAllRunSortByTimeInMillis()
+    private val runsSortedByAvgSpeed = runRepository.getAllRunSortByAvgSpeed()
 
     val runs = MediatorLiveData<List<Run>>()
 

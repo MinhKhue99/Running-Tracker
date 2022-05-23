@@ -20,4 +20,15 @@
     <string name="ingredients">Ingredients :</string>
     <string name="instructions">Instructions :</string>
     <string name="watch_video">Watch Video</string>
+    <string name="track_your_ndaily_progress">Track your\ndaily progress</string>
+    <string name="save_your_progress_in_one_application_ntrack_your_fitness_level">Save your progress in one application.\nTrack your fitness level.</string>
+    <string name="get_started">Get Started</string>
+    <string name="change_your_way_nyou_run">Change your way\nyou run</string>
+    <string name="the_future_of_nhealthy_lifestyle">The future of\nhealthy lifestyle</string>
+    <string name="next">Next</string>
+    <string name="your_run">Your Run</string>
+    <string name="statistics">Statistics</string>
+    <string name="food">Food</string>
+    <string name="settings">Settings</string>
+    <string name="health_news">Health News</string>
 </resources>

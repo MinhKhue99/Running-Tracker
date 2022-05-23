@@ -1,4 +1,4 @@
-package com.minhkhue.runningtracker.model.entity
+package com.minhkhue.runningtracker.model.local
 
 import android.graphics.Bitmap
 import androidx.room.Entity

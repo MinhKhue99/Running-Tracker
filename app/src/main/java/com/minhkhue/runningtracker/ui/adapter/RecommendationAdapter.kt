@@ -2,49 +2,45 @@ package com.minhkhue.runningtracker.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.ItemRowRecommendationBinding
-import com.minhkhue.runningtracker.model.Recipes
-import com.minhkhue.runningtracker.ui.fragment.FoodFragmentDirections
+import com.minhkhue.runningtracker.model.remote.Meal
 
 class RecommendationAdapter : RecyclerView.Adapter<RecommendationAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemRowRecommendationBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(recipes: Recipes) {
-            binding.tvMeal.text = recipes.strMeal
-            binding.tvArea.text = recipes.strArea
-            binding.tvCategory.text = recipes.strCategory
+        fun bindData(meal: Meal) {
+            binding.tvMeal.text = meal.strMeal
+            binding.tvArea.text = meal.strArea
+            binding.tvCategory.text = meal.strCategory
             Glide.with(itemView.context)
-                .load(recipes.strMealThumb)
+                .load(meal.strMealThumb)
                 .placeholder(R.drawable.placeholder)
                 .into(binding.ivMeal)
-
-            itemView.setOnClickListener {
-                val direction =
-                    FoodFragmentDirections.actionFoodFragmentToDetailFoodFragment(recipes)
-                it.findNavController().navigate(direction)
-            }
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Recipes>() {
-        override fun areItemsTheSame(oldItem: Recipes, newItem: Recipes): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<Meal>() {
+        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem.idMeal == newItem.idMeal
         }
 
-        override fun areContentsTheSame(oldItem: Recipes, newItem: Recipes): Boolean {
+        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem == newItem
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    fun submitList(list: List<Recipes>) = differ.submitList(list)
+    var response: List<Meal>
+        get() = differ.currentList
+        set(value) {
+            differ.submitList(value)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -57,8 +53,21 @@ class RecommendationAdapter : RecyclerView.Adapter<RecommendationAdapter.ViewHol
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(differ.currentList[position])
+        holder.bindData(response[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener.let {
+                if (it != null) {
+                    it(response[position])
+                }
+            }
+        }
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = response.size
+
+    private var onItemClickListener: ((Meal) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Meal) -> Unit) {
+        onItemClickListener = listener
+    }
 }

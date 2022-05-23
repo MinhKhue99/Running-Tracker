@@ -24,7 +24,7 @@ import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 
 @AndroidEntryPoint
-class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+class   RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private var _binding: FragmentRunBinding? = null
     private val binding get() = _binding!!
     private val mainViewModel: MainViewModel by viewModels()
@@ -42,7 +42,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         requestPermissions()
-        setupRecyclerView()
+      setupRecyclerView()
 
         when (mainViewModel.sortType) {
             SortType.DATE -> binding.spFilter.setSelection(0)
@@ -74,7 +74,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         mainViewModel.runs.observe(viewLifecycleOwner) {
             runAdapter.submitList(it)
         }
-        binding.fab.setOnClickListener {
+       binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
     }
@@ -126,7 +126,7 @@ class RunFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
     }
 
-    private fun setupRecyclerView() = binding.rvRuns.apply {
+   private fun setupRecyclerView() = binding.rvRuns.apply {
         runAdapter = RunAdapter()
         adapter = runAdapter
         layoutManager = LinearLayoutManager(requireContext())

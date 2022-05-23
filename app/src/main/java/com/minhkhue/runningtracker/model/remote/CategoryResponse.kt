@@ -1,4 +1,4 @@
-package com.minhkhue.runningtracker.model.entity
+package com.minhkhue.runningtracker.model.remote
 
 data class CategoryResponse(
     val categories: List<Category>

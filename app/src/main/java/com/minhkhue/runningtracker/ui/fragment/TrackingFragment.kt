@@ -13,7 +13,7 @@ import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.snackbar.Snackbar
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.FragmentTrackingBinding
-import com.minhkhue.runningtracker.model.Run
+import com.minhkhue.runningtracker.model.local.Run
 import com.minhkhue.runningtracker.service.Polyline
 import com.minhkhue.runningtracker.service.TrackingService
 import com.minhkhue.runningtracker.utils.Constant

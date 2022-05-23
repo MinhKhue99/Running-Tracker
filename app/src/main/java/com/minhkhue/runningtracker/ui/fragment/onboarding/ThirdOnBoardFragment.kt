@@ -1,20 +1,29 @@
 package com.minhkhue.runningtracker.ui.fragment.onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.minhkhue.runningtracker.R
+import androidx.fragment.app.Fragment
+import com.minhkhue.runningtracker.databinding.FragmentThirdOnBoardBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class FirstOnBoardFragment : Fragment() {
-
+@AndroidEntryPoint
+class ThirdOnBoardFragment : Fragment() {
+    private var _binding: FragmentThirdOnBoardBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first_on_board, container, false)
+        _binding = FragmentThirdOnBoardBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

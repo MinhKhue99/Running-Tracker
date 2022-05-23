@@ -30,10 +30,14 @@ object Constant {
 
     const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
 
-    const val BASE_API = "https://www.themealdb.com/api/json/v1/1/"
+    const val BASE_URL = "https://www.themealdb.com/api/json/v1/1/"
     const val RECOMMENDATION_END_POINT = "random.php"
     const val CATEGORY_END_POINT = "categories.php"
-    const val FILTER_END_POINT = "filter.php?c="
-    const val LOOKUP_END_POINT = "lookup.php?i="
+    const val FILTER_END_POINT = "filter.php?"
+    const val MEAL_DETAIL_ENDPOINT = "lookup.php?"
     const val SEARCH_MEAL_BY_NAME = "search.php?s="
+
+    const val NEWS_API_KEY = "0d33a2cdc3c247f3998ca9fa3ee32abb"
+    const val NEWS_BASE_URL = "https://newsapi.org/"
+    const val QUERY_PAGE_SIZE = 20
 }

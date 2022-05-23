@@ -3,7 +3,7 @@ package com.minhkhue.runningtracker.data.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.minhkhue.runningtracker.model.Run
+import com.minhkhue.runningtracker.model.local.Run
 
 @Database(
     entities = [Run::class],

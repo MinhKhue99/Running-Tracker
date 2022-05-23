@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.ActivityMainBinding
 import com.minhkhue.runningtracker.utils.Constant
+import com.minhkhue.runningtracker.utils.Extensions
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
         navController =
             (supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment).navController
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.runFragment, R.id.statisticsFragment, R.id.foodFragment, R.id.settingsFragment ->
+                R.id.runFragment, R.id.statisticsFragment,R.id.newsFragment ,R.id.foodFragment, R.id.settingsFragment ->
                     binding.bottomNavigationView.visibility = View.VISIBLE
                 else ->
                     binding.bottomNavigationView.visibility = View.GONE

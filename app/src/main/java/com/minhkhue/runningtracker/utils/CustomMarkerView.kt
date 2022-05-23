@@ -7,7 +7,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.utils.MPPointF
 import com.minhkhue.runningtracker.databinding.MarkerViewBinding
-import com.minhkhue.runningtracker.model.Run
+import com.minhkhue.runningtracker.model.local.Run
 import java.text.SimpleDateFormat
 import java.util.*
 

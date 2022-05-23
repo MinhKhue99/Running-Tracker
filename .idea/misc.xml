@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable-v24/ic_favorite_hollow.xml" value="0.1" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable-v24/ic_favorites.xml" value="0.1" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/background_button.xml" value="0.195" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/bottom_nav_selector.xml" value="0.1945" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/green_rect.xml" value="0.1" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_add.xml" value="0.1945" />
@@ -15,26 +18,37 @@
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_run.xml" value="0.1945" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_setting.xml" value="0.116" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_settings.xml" value="0.1945" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_statistic.xml" value="0.1225" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_statistics_2_svgrepo_com.xml" value="0.1" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/ic_stop.xml" value="0.1945" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/drawable/search_rect.xml" value="0.195" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout-land/fragment_statistics.xml" value="0.19635416666666666" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout-land/fragment_tracking.xml" value="0.25" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout-land/toolbar_home.xml" value="0.12027027027027028" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout-land/toolbar_search.xml" value="0.12027027027027028" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/activity_onboarding.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_article.xml" value="0.13444816053511705" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_detail_food.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_filter_recipes.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_first_on_board.xml" value="0.15" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_food.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_news.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_run.xml" value="0.1266891891891892" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_search_food.xml" value="0.1266891891891892" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_second_on_board.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_settings.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_setup.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_splash.xml" value="0.1266891891891892" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_statistics.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_third_on_board.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_tracking.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/fragment_view_pager.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/frament_run.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_article_preview.xml" value="0.21" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_grid_categories.xml" value="0.1358108108108108" />
-        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_row_recipes.xml" value="0.1358108108108108" />
+        <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_row_recipes.xml" value="0.17" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_row_recommendation.xml" value="0.1358108108108108" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/item_run.xml" value="0.16" />
         <entry key="..\:/Android/Android Kotlin/DoAnTotNgiep/RunningTracker/app/src/main/res/layout/marker_view.xml" value="0.1358108108108108" />

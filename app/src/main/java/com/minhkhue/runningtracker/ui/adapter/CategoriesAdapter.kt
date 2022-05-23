@@ -2,47 +2,43 @@ package com.minhkhue.runningtracker.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.ItemGridCategoriesBinding
-import com.minhkhue.runningtracker.model.Categories
-import com.minhkhue.runningtracker.ui.fragment.FoodFragmentDirections
+import com.minhkhue.runningtracker.model.remote.Category
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemGridCategoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(categories: Categories) {
+        fun bindData(categories: Category) {
             binding.tvCategory.text = categories.strCategory
             Glide.with(itemView.context)
                 .load(categories.strCategoryThumb)
                 .placeholder(R.drawable.placeholder)
                 .into(binding.ivCategory)
-
-            itemView.setOnClickListener {
-                val direction =
-                    FoodFragmentDirections.actionFoodFragmentToFilterRecipesFragment(categories)
-                it.findNavController().navigate(direction)
-            }
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Categories>() {
-        override fun areItemsTheSame(oldItem: Categories, newItem: Categories): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<Category>() {
+        override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem.strCategory == newItem.strCategory
         }
 
-        override fun areContentsTheSame(oldItem: Categories, newItem: Categories): Boolean {
+        override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem == newItem
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    fun submitList(list: List<Categories>) = differ.submitList(list)
+    var response: List<Category>
+        get() = differ.currentList
+        set(value) {
+            differ.submitList(value)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -55,8 +51,19 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(differ.currentList[position])
+        holder.bindData(response[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let {
+                it(response[position])
+            }
+        }
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = response.size
+
+    private var onItemClickListener: ((Category) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Category) -> Unit) {
+        onItemClickListener = listener
+    }
 }

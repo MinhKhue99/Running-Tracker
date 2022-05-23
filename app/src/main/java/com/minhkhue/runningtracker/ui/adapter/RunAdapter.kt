@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.minhkhue.runningtracker.databinding.ItemRunBinding
-import com.minhkhue.runningtracker.model.Run
+import com.minhkhue.runningtracker.model.local.Run
 import com.minhkhue.runningtracker.utils.Extensions
 import java.text.SimpleDateFormat
 import java.util.*

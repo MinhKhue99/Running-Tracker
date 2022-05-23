@@ -7,6 +7,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.RunFragment"
     >
+    <!--
+      <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_food"
+        app:civ_border_color="#FF000000"
+        app:civ_border_width="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <TextView
+        android:id="@+id/tvHello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:text="Hi Minh Khue"
+        android:textColor="#131627"
+        android:textSize="35sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileImage"
+        />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tvHello"
+        app:layout_constraintTop_toTopOf="@id/tvHello"
+        app:layout_constraintBottom_toBottomOf="@id/tvHello"
+        android:src="@drawable/hand_emoji"
+        android:layout_marginStart="10dp"/>
+    -->
 
     <Spinner
         android:id="@+id/spFilter"

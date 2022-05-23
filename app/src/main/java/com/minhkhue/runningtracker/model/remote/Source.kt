@@ -1,6 +1,6 @@
 package com.minhkhue.runningtracker.model.remote
 
 data class Source(
-    val id: String,
+    var id: String? = null,
     val name: String
 )

@@ -1,4 +1,4 @@
-package com.minhkhue.runningtracker.ui.fragment
+package com.minhkhue.runningtracker.ui.fragment.onboarding
 
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -27,9 +27,6 @@ class SetupFragment : Fragment() {
     @Inject
     lateinit var sharedPref: SharedPreferences
 
-    @set:Inject
-    var isFirstAppOpen = true
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,20 +38,10 @@ class SetupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (!isFirstAppOpen) {
-            val navOptions = NavOptions.Builder()
-                .setPopUpTo(R.id.setupFragment, true)
-                .build()
-            findNavController().navigate(
-                R.id.action_setupFragment_to_runFragment,
-                savedInstanceState,
-                navOptions
-            )
-        }
         binding.tvContinue.setOnClickListener {
             val success = initPersonalDataToSharedPref()
             if (success) {
-                findNavController().navigate(R.id.action_setupFragment_to_runFragment)
+                findNavController().navigate(R.id.action_viewpagerFragment_to_runFragment)
             } else {
                 Snackbar.make(requireView(), "Please enter all the fields", Snackbar.LENGTH_SHORT)
                     .show()

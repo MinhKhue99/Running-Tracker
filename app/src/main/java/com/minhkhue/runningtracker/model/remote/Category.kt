@@ -1,4 +1,4 @@
-package com.minhkhue.runningtracker.model.entity
+package com.minhkhue.runningtracker.model.remote
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

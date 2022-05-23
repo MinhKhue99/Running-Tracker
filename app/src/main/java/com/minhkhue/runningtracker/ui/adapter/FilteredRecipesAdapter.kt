@@ -3,20 +3,18 @@ package com.minhkhue.runningtracker.ui.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.ItemRowRecipesBinding
-import com.minhkhue.runningtracker.model.Recipes
-import com.minhkhue.runningtracker.ui.fragment.FilterRecipesFragmentDirections
+import com.minhkhue.runningtracker.model.remote.Meal
 
 class FilteredRecipesAdapter : RecyclerView.Adapter<FilteredRecipesAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: ItemRowRecipesBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(recipes: Recipes) {
+        fun bindData(meal: Meal) {
             val colors = arrayOf(
                 Color.parseColor("#FF9AA2"),
                 Color.parseColor("#FFB7B2"),
@@ -29,34 +27,32 @@ class FilteredRecipesAdapter : RecyclerView.Adapter<FilteredRecipesAdapter.ViewH
             val randomColor = colors.random()
             binding.cvRecipe.setCardBackgroundColor(randomColor)
 
-            binding.tvRecipe.text = recipes.strMeal
+            binding.tvRecipe.text = meal.strMeal
             Glide.with(itemView.context)
-                .load(recipes.strMealThumb)
+                .load(meal.strMealThumb)
                 .circleCrop()
                 .placeholder(R.drawable.placeholder)
                 .into(binding.ivRecipe)
-
-            itemView.setOnClickListener {
-                val direction =
-                    FilterRecipesFragmentDirections.actionFilterRecipesFragmentToDetailFoodFragment(recipes)
-                it.findNavController().navigate(direction)
-            }
         }
     }
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Recipes>() {
-        override fun areItemsTheSame(oldItem: Recipes, newItem: Recipes): Boolean {
+    private val diffCallback = object : DiffUtil.ItemCallback<Meal>() {
+        override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem.idMeal == newItem.idMeal
         }
 
-        override fun areContentsTheSame(oldItem: Recipes, newItem: Recipes): Boolean {
+        override fun areContentsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem == newItem
         }
     }
 
     private val differ = AsyncListDiffer(this, diffCallback)
 
-    fun submitList(list: List<Recipes>) = differ.submitList(list)
+    var response: List<Meal>
+        get() = differ.currentList
+        set(value) {
+            differ.submitList(value)
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -69,8 +65,19 @@ class FilteredRecipesAdapter : RecyclerView.Adapter<FilteredRecipesAdapter.ViewH
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bindData(differ.currentList[position])
+        holder.bindData(response[position])
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let {
+                it(response[position])
+            }
+        }
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun getItemCount(): Int = response.size
+
+    private var onItemClickListener: ((Meal) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Meal) -> Unit) {
+        onItemClickListener = listener
+    }
 }
