@@ -34,7 +34,7 @@ class RunAdapter : RecyclerView.Adapter<RunAdapter.RunViewHolder>() {
         }
     }
 
-    var diffCallback = object : DiffUtil.ItemCallback<Run>() {
+    private var diffCallback = object : DiffUtil.ItemCallback<Run>() {
         override fun areItemsTheSame(oldItem: Run, newItem: Run): Boolean {
             return oldItem.id == newItem.id
         }

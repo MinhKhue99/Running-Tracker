@@ -4,14 +4,19 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.minhkhue.runningtracker.model.local.Run
+import com.minhkhue.runningtracker.model.local.User
 import com.minhkhue.runningtracker.repository.RunRepository
+import com.minhkhue.runningtracker.repository.UserRepository
 import com.minhkhue.runningtracker.utils.SortType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val runRepository: RunRepository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val runRepository: RunRepository,
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     fun insertRun(run: Run) = viewModelScope.launch {
         runRepository.insertRun(run)
@@ -64,4 +69,14 @@ class MainViewModel @Inject constructor(private val runRepository: RunRepository
     }.also {
         this.sortType = sortType
     }
+
+    fun insertUser(user: User) = viewModelScope.launch {
+        userRepository.insertUser(user)
+    }
+
+    fun updateUser(user: User) = viewModelScope.launch {
+        userRepository.updateUser(user)
+    }
+
+    fun getUserInfo() = userRepository.getUserInfo()
 }

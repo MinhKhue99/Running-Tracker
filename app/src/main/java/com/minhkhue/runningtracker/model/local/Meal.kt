@@ -8,7 +8,7 @@ import com.squareup.moshi.Json
 data class Meal(
     @PrimaryKey
     @Json(name = "idMeal")
-    val id: Int,
+    val idMeal: Int,
     @Json(name = "strMeal")
     val mealName: String,
     @Json(name = "strMealThumb")

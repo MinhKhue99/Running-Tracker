@@ -4,12 +4,14 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.minhkhue.runningtracker.model.local.Run
+import com.minhkhue.runningtracker.model.local.User
 
 @Database(
-    entities = [Run::class],
+    entities = [Run::class,User::class],
     version = 1
 )
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getRunDao(): RunDao
+    abstract fun getUserDao():UserDao
 }

@@ -19,6 +19,7 @@ import com.minhkhue.runningtracker.databinding.FragmentFoodBinding
 import com.minhkhue.runningtracker.ui.adapter.CategoriesAdapter
 import com.minhkhue.runningtracker.ui.adapter.RecommendationAdapter
 import com.minhkhue.runningtracker.utils.Status
+import com.minhkhue.runningtracker.viewmodel.MainViewModel
 import com.minhkhue.runningtracker.viewmodel.RecipeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -28,6 +29,7 @@ class FoodFragment : Fragment() {
     private var _binding: FragmentFoodBinding? = null
     private val binding get() = _binding!!
     private val recipeViewModel: RecipeViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var recommendationAdapter: RecommendationAdapter
     override fun onCreateView(
@@ -148,6 +150,10 @@ class FoodFragment : Fragment() {
                 R.color.white
             )
         )
+        mainViewModel.getUserInfo().observe(viewLifecycleOwner) { user ->
+            binding.toolbarHome.textView.text =
+                StringBuilder("Hello, ").append(user[0].username).append("!")
+        }
 
     }
 
