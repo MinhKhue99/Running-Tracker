@@ -26,4 +26,6 @@
     <color name="brown">#6d6857</color>
     <color name="colorGrey">#C6C6C6</color>
     <color name="shimmerBg">#dddddd</color>
+    <color name="colorBlackShadow">#74000000</color>
+    <color name="colorBlackSoft">#740C0C0C</color>
 </resources>

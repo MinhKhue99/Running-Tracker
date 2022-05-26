@@ -39,18 +39,14 @@ object AppModule {
     @Singleton
     fun provideUserDao(db: AppDatabase) = db.getUserDao()
 
+    @Provides
+    @Singleton
+    fun provideMealDao(db: AppDatabase) = db.getMealDao()
+
     @Singleton
     @Provides
     fun provideSharedPreferences(@ApplicationContext app: Context): SharedPreferences =
         app.getSharedPreferences(SHARED_PREFERENCES_NAME, MODE_PRIVATE)
-
-    @Singleton
-    @Provides
-    fun provideName(sharedPref: SharedPreferences) = sharedPref.getString(KEY_NAME, "") ?: ""
-
-    @Singleton
-    @Provides
-    fun provideWeight(sharedPref: SharedPreferences) = sharedPref.getFloat(KEY_WEIGHT, 80f)
 
     @Singleton
     @Provides

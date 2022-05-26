@@ -106,4 +106,18 @@ class RecipeViewModel @Inject constructor(
             _recipe.postValue(Resource.error("No Internet Connection",null))
         }
     }
+
+    private val _favorite = MutableLiveData<Int>()
+    val favorite: LiveData<Int> get() = _favorite
+    fun isFavorite(mealId: Int) {
+        viewModelScope.launch {
+            _favorite.postValue(0)
+            launch(Dispatchers.IO) {
+                _favorite.postValue(recipeRepository.isFavorite(mealId))
+            }
+        }
+    }
+
+
+
 }

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,9 +60,7 @@ class SetupFragment : Fragment() {
     }
 
     private fun openGallery() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
+        val intent = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(Intent.createChooser(intent, "Choose Avatar"), 1)
     }
 
@@ -76,23 +75,6 @@ class SetupFragment : Fragment() {
             }
         }
     }
-
-    private fun initPersonalDataToSharedPref(): Boolean {
-        val name = binding.etName.text.toString().trim()
-        val weight = binding.etWeight.text.toString().trim()
-        if (name.isEmpty() || weight.isEmpty()) {
-            return false
-        }
-        sharedPref.edit()
-            .putString(KEY_NAME, name)
-            .putFloat(KEY_WEIGHT, weight.toFloat())
-            .putBoolean(KEY_FIRST_TIME_TOGGLE, false)
-            .apply()
-        val toolbarText = "Let's go, $name!"
-        (requireActivity() as AppCompatActivity).supportActionBar?.title = toolbarText
-        return true
-    }
-
 
     private fun saveUser():Boolean {
         val userName = binding.etName.text.toString()

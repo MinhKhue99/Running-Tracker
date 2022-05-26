@@ -35,9 +35,7 @@ class TrackingFragment : Fragment() {
     private var map: GoogleMap? = null
     private var currentTimeInMillis = 0L
     private var menu: Menu? = null
-
-    @set:Inject
-    var weight = 45f
+    var weight = 0
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +49,9 @@ class TrackingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        mainViewModel.getUserInfo().observe(viewLifecycleOwner){user->
+            weight = user[0].weight
+        }
         if (savedInstanceState!=null){
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(Constant.CANCEL_TRACKING_DIALOG_TAG)
             as CancelTrackingDialog

@@ -24,7 +24,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.minhkhue.runningtracker.ui.fragment.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment" >
+        <action
+            android:id="@+id/action_settingsFragment_to_editUserInfoFragment"
+            app:destination="@id/editUserInfoFragment" />
+    </fragment>
     <fragment
         android:id="@+id/trackingFragment"
         android:name="com.minhkhue.runningtracker.ui.fragment.TrackingFragment"
@@ -47,6 +51,9 @@
         <action
             android:id="@+id/action_foodFragment_to_filterRecipesFragment"
             app:destination="@id/filterRecipesFragment" />
+        <action
+            android:id="@+id/action_foodFragment_to_favoriteFoodFragment"
+            app:destination="@id/favoriteFoodFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFoodFragment"
@@ -114,5 +121,23 @@
         <argument
             android:name="article"
             app:argType="com.minhkhue.runningtracker.model.remote.Article" />
+    </fragment>
+    <fragment
+        android:id="@+id/editUserInfoFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.EditUserInfoFragment"
+        android:label="fragment_edit_user_info"
+        tools:layout="@layout/fragment_edit_user_info" >
+        <action
+            android:id="@+id/action_editUserInfoFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFoodFragment"
+        android:name="com.minhkhue.runningtracker.ui.fragment.FavoriteFoodFragment"
+        android:label="fragment_favorite_food"
+        tools:layout="@layout/fragment_favorite_food" >
+        <action
+            android:id="@+id/action_favoriteFoodFragment_to_detailFoodFragment"
+            app:destination="@id/detailFoodFragment" />
     </fragment>
 </navigation>
