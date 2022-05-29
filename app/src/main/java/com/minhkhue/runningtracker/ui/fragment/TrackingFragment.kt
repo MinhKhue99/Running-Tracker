@@ -10,18 +10,23 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.FragmentTrackingBinding
 import com.minhkhue.runningtracker.model.local.Run
 import com.minhkhue.runningtracker.service.Polyline
 import com.minhkhue.runningtracker.service.TrackingService
-import com.minhkhue.runningtracker.utils.Constant
+import com.minhkhue.runningtracker.utils.Constant.ACTION_PAUSE_SERVICE
+import com.minhkhue.runningtracker.utils.Constant.ACTION_START_OR_RESUME_SERVICE
+import com.minhkhue.runningtracker.utils.Constant.ACTION_STOP_SERVICE
+import com.minhkhue.runningtracker.utils.Constant.MAP_ZOOM
+import com.minhkhue.runningtracker.utils.Constant.POLYLINE_COLOR
+import com.minhkhue.runningtracker.utils.Constant.POLYLINE_WIDTH
 import com.minhkhue.runningtracker.utils.Extensions
 import com.minhkhue.runningtracker.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -29,13 +34,19 @@ class TrackingFragment : Fragment() {
 
     private var _binding: FragmentTrackingBinding? = null
     private val binding get() = _binding!!
-    private val mainViewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
+
     private var isTracking = false
     private var pathPoints = mutableListOf<Polyline>()
+
     private var map: GoogleMap? = null
-    private var currentTimeInMillis = 0L
+
+    private var curTimeInMillis = 0L
+
     private var menu: Menu? = null
+
     var weight = 0
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,50 +55,49 @@ class TrackingFragment : Fragment() {
         setHasOptionsMenu(true)
         _binding = FragmentTrackingBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.getUserInfo().observe(viewLifecycleOwner){user->
+        viewModel.getUserInfo().observe(viewLifecycleOwner){user->
             weight = user[0].weight
         }
-        if (savedInstanceState!=null){
-            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(Constant.CANCEL_TRACKING_DIALOG_TAG)
-            as CancelTrackingDialog
-            cancelTrackingDialog.setYesListener {
-                stopRun()
-            }
-        }
-
+        binding.mapView.onCreate(savedInstanceState)
         binding.btnToggleRun.setOnClickListener {
             toggleRun()
         }
-        binding.mapView.onCreate(savedInstanceState)
-        binding.mapView.getMapAsync {
-            map = it
-            addAllPolyline()
-        }
-        subscribeToObservers()
+
         binding.btnFinishRun.setOnClickListener {
             zoomToSeeWholeTrack()
-            endRunAndSaveToDatabase()
+            endRunAndSaveToDb()
         }
 
+        binding.btnDeleteRun?.setOnClickListener {
+            showCancelTrackingDialog()
+        }
+
+        binding.mapView.getMapAsync {
+            map = it
+            addAllPolylines()
+        }
+
+        subscribeToObservers()
     }
 
     private fun subscribeToObservers() {
         TrackingService.isTracking.observe(viewLifecycleOwner) {
             updateTracking(it)
         }
+
         TrackingService.pathPoints.observe(viewLifecycleOwner) {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
         }
+
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
-            currentTimeInMillis = it
-            val formattedTime = Extensions.getFormattedStopWatchTime(currentTimeInMillis, true)
+            curTimeInMillis = it
+            val formattedTime = Extensions.getFormattedStopWatchTime(curTimeInMillis, true)
             binding.tvTimer.text = formattedTime
         }
     }
@@ -95,21 +105,65 @@ class TrackingFragment : Fragment() {
     private fun toggleRun() {
         if (isTracking) {
             menu?.getItem(0)?.isVisible = true
-            sendCommandToService(Constant.ACTION_PAUSE_SERVICE)
+            sendCommandToService(ACTION_PAUSE_SERVICE)
         } else {
-            sendCommandToService(Constant.ACTION_START_OR_RESUME_SERVICE)
+            sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_tracking_menu, menu)
+        this.menu = menu
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        if (curTimeInMillis > 0L) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miCancelTracking -> {
+                showCancelTrackingDialog()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showCancelTrackingDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle("Cancel the Run?")
+            .setMessage("Are you sure to cancel the current run and delete all its data?")
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton("Yes") { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton("No") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .create()
+        dialog.show()
+    }
+
+    private fun stopRun() {
+        sendCommandToService(ACTION_STOP_SERVICE)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (!isTracking && currentTimeInMillis > 0L) {
-            binding.btnToggleRun.text = StringBuilder("Start")
+        if (!isTracking) {
+            binding.btnToggleRun.setText(R.string.start)
             binding.btnFinishRun.visibility = View.VISIBLE
-        } else if (isTracking) {
-            binding.btnToggleRun.text = StringBuilder("Stop")
+            binding.btnDeleteRun?.visibility = View.VISIBLE
+        } else {
+            binding.btnToggleRun.setText(R.string.stop)
             menu?.getItem(0)?.isVisible = true
             binding.btnFinishRun.visibility = View.GONE
+            binding.btnDeleteRun?.visibility = View.GONE
         }
     }
 
@@ -118,48 +172,43 @@ class TrackingFragment : Fragment() {
             map?.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
                     pathPoints.last().last(),
-                    Constant.MAP_ZOOM
+                    MAP_ZOOM
                 )
             )
         }
     }
 
     private fun zoomToSeeWholeTrack() {
-        val bounds = LatLngBounds.builder()
+        val bounds = LatLngBounds.Builder()
         for (polyline in pathPoints) {
             for (pos in polyline) {
                 bounds.include(pos)
             }
         }
+
         map?.moveCamera(
             CameraUpdateFactory.newLatLngBounds(
                 bounds.build(),
                 binding.mapView.width,
                 binding.mapView.height,
-                (binding.mapView.height * 0.05f).toInt(),
+                (binding.mapView.height * 0.05f).toInt()
             )
         )
     }
 
-    private fun endRunAndSaveToDatabase() {
+    private fun endRunAndSaveToDb() {
         map?.snapshot { bmp ->
             var distanceInMeters = 0
             for (polyline in pathPoints) {
                 distanceInMeters += Extensions.calculatePolylineLength(polyline).toInt()
             }
             val avgSpeed =
-                round((distanceInMeters / 1000f) / (currentTimeInMillis / 1000f / 60 / 60) * 10) / 10f
+                round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val dateTimestamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
-            val run = Run(
-                bmp,
-                dateTimestamp,
-                avgSpeed,
-                distanceInMeters,
-                currentTimeInMillis,
-                caloriesBurned
-            )
-            mainViewModel.insertRun(run)
+            val run =
+                Run(bmp, dateTimestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned)
+            viewModel.insertRun(run)
             Snackbar.make(
                 requireActivity().findViewById(R.id.rootView),
                 "Run saved successfully",
@@ -169,11 +218,11 @@ class TrackingFragment : Fragment() {
         }
     }
 
-    private fun addAllPolyline() {
+    private fun addAllPolylines() {
         for (polyline in pathPoints) {
             val polylineOptions = PolylineOptions()
-                .color(Constant.POLYLINE_COLOR)
-                .width(Constant.POLYLINE_WIDTH)
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
                 .addAll(polyline)
             map?.addPolyline(polylineOptions)
         }
@@ -184,8 +233,8 @@ class TrackingFragment : Fragment() {
             val preLastLatLng = pathPoints.last()[pathPoints.last().size - 2]
             val lastLatLng = pathPoints.last().last()
             val polylineOptions = PolylineOptions()
-                .color(Constant.POLYLINE_COLOR)
-                .width(Constant.POLYLINE_WIDTH)
+                .color(POLYLINE_COLOR)
+                .width(POLYLINE_WIDTH)
                 .add(preLastLatLng)
                 .add(lastLatLng)
             map?.addPolyline(polylineOptions)
@@ -198,18 +247,9 @@ class TrackingFragment : Fragment() {
             requireContext().startService(it)
         }
 
-    private fun showCancelTrackingDialog() {
-        CancelTrackingDialog().apply {
-            setYesListener {
-                stopRun()
-            }
-        }.show(parentFragmentManager, Constant.CANCEL_TRACKING_DIALOG_TAG)
-    }
-
-    private fun stopRun() {
-        binding.tvTimer.text = StringBuilder("00:00:00:00")
-        sendCommandToService(Constant.ACTION_STOP_SERVICE)
-        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
+    override fun onResume() {
+        super.onResume()
+        binding.mapView.onResume()
     }
 
     override fun onStart() {
@@ -217,19 +257,14 @@ class TrackingFragment : Fragment() {
         binding.mapView.onStart()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.mapView.onResume()
+    override fun onStop() {
+        super.onStop()
+        binding.mapView.onStop()
     }
 
     override fun onPause() {
         super.onPause()
         binding.mapView.onPause()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        binding.mapView.onStop()
     }
 
     override fun onLowMemory() {
@@ -240,29 +275,6 @@ class TrackingFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.toolbar_tracking_menu, menu)
-        this.menu = menu
-
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        if (currentTimeInMillis > 0L) {
-            this.menu?.getItem(0)?.isVisible = true
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.miCancelTracking -> {
-                showCancelTrackingDialog()
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {

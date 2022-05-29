@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,8 +17,6 @@ import com.minhkhue.runningtracker.R
 import com.minhkhue.runningtracker.databinding.FragmentSetupBinding
 import com.minhkhue.runningtracker.model.local.User
 import com.minhkhue.runningtracker.utils.Constant.KEY_FIRST_TIME_TOGGLE
-import com.minhkhue.runningtracker.utils.Constant.KEY_NAME
-import com.minhkhue.runningtracker.utils.Constant.KEY_WEIGHT
 import com.minhkhue.runningtracker.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,6 +27,7 @@ class SetupFragment : Fragment() {
     private var _binding: FragmentSetupBinding? = null
     private val binding get() = _binding!!
     private val mainViewModel: MainViewModel by viewModels()
+   private lateinit var imageUri:Uri
 
     @Inject
     lateinit var sharedPref: SharedPreferences
@@ -64,13 +62,12 @@ class SetupFragment : Fragment() {
         startActivityForResult(Intent.createChooser(intent, "Choose Avatar"), 1)
     }
 
-    var imageUri: Uri? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when {
             requestCode == 1 && resultCode == Activity.RESULT_OK -> {
-                imageUri = data!!.data
+                imageUri = data!!.data!!
                 binding.profileImage.setImageURI(imageUri)
             }
         }

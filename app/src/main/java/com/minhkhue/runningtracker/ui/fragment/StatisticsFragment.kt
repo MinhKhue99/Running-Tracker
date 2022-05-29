@@ -80,7 +80,8 @@ class StatisticsFragment : Fragment() {
                 }
                 val barDataSet = BarDataSet(allAVGSpeed, "Avg Seed Over Time").apply {
                     valueTextColor = Color.WHITE
-                    color = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+                    color = ContextCompat.getColor(requireContext(), R.color.md_blue_500)
+                    formSize = 15f
                 }
                 binding.barChart?.data = BarData(barDataSet)
                 binding.barChart?.marker = CustomMarkerView(it.reversed(),requireContext(),R.layout.marker_view)
